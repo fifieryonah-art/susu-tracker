@@ -17,11 +17,21 @@ includes pytest for automated tests.
 
 ## Tests
 
-Once tests have been added, run them from the project root:
+Run the tests from the project root:
 
 ```bash
 python -m pytest
 ```
+
+Alternatively, run the tests with Python's built-in test runner (no pytest installation required):
+
+```bash
+python -m unittest discover -v
+```
+
+Money inputs accept positive GHS amounts with up to 12 whole digits and two
+decimal places. Extra decimal places are rejected, including trailing zeros
+such as `10.000`. Money is stored as integer pesewas.
 
 To leave the virtual environment:
 
