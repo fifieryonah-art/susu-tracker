@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+susu.json
+.pytest_cache/
+.venv/
