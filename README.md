@@ -1,6 +1,6 @@
 # Susu savings
 
-A Python program for managing one rotating savings group. Development is in progress.
+A command-line Python program for managing one rotating savings group.
 
 ## Setup
 
@@ -14,6 +14,47 @@ python -m pip install -r requirements.txt
 
 The application currently uses only the Python standard library. `requirements.txt`
 includes pytest for automated tests.
+
+## Run the program
+
+From the project root with your virtual environment activated:
+
+```bash
+python -m susu create 50.00
+python -m susu add Ama
+python -m susu add Kofi
+python -m susu add Esi
+python -m susu pay Ama 1 50.00
+python -m susu pay Kofi 1 50.00
+python -m susu pay Esi 1 30.00
+python -m susu close
+```
+
+The last command reports `Esi owes 20.00 GHS` and leaves week 1 open.
+Finish her payment and close again:
+
+```bash
+python -m susu pay Esi 1 20.00
+python -m susu close
+python -m susu report
+```
+
+Ama receives 150.00 GHS. The report shows week 2, Kofi as the next recipient,
+each member's outstanding balance, and the payout history.
+
+Data is saved in `susu.json` in the current directory. Creating a group refuses
+to overwrite an existing file. For another file, put `--file` before the command:
+
+```bash
+python -m susu --file another-group.json create 50.00
+python -m susu --file another-group.json report
+```
+
+Quote names containing spaces. Use `python -m susu --help` for commands.
+Commands return exit code 0 on success, 1 for validation/storage errors or an
+unpaid week, and 2 for invalid command syntax. Run one command at a time.
+The default `susu.json` is ignored by Git; keep other saved group files out of
+your commits too.
 
 ## Use the group API
 
@@ -45,8 +86,8 @@ outstanding balances, next recipient, and payout history. Monetary report
 values are GHS strings. Validation failures raise subclasses of `SusuError`
 from `susu.errors`.
 
-The API currently keeps data in memory. See [NOTES.md](NOTES.md) for membership,
-cycle completion, and other assumptions.
+Direct API objects keep data in memory; the CLI saves accepted actions to disk.
+See [NOTES.md](NOTES.md) for membership, cycle completion, and other assumptions.
 
 ## Tests
 

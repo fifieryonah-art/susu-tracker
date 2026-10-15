@@ -15,11 +15,17 @@
   two-decimal GHS strings. Inputs permit at most 12 whole digits and two decimal
   places, including trailing zeros. Floats are rejected.
 - Payouts are recorded bookkeeping events; no bank transfer is performed.
-- The current implementation is an in-memory Python API. Data lasts only for the
-  lifetime of the group object. Reports return copies to protect stored state.
+- Direct Python API objects keep state in memory. Reports return copies to
+  protect stored state. The CLI persists accepted actions to a versioned JSON
+  file and replays them through the group rules when loading.
+- Saved files are validated before use. Writes use a temporary file and atomic
+  replacement. Creation refuses to overwrite existing data. Rejected operations
+  and blocked closures do not write to the file.
+- Run one CLI command at a time: storage does not lock against concurrent
+  writers. The default file is `susu.json` in the current working directory.
 
 # Improvements with more time
 
-- Add a command-line entry point and validated file persistence.
+- Add file locking for concurrent commands and backup/recovery tools.
 - Add dated payment receipts and an audit trail for corrections.
 - Support multiple independent groups and explicitly starting another cycle.
