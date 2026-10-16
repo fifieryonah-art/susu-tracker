@@ -26,6 +26,8 @@
 
 # Improvements with more time
 
+- Add a graphical user interface with forms and buttons for creating groups,
+  adding members, recording payments, and viewing reports.
 - Add file locking for concurrent commands and backup/recovery tools.
 - Add dated payment receipts and an audit trail for corrections.
 - Support multiple independent groups and explicitly starting another cycle.
